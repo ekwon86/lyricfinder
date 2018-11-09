@@ -9,6 +9,7 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <h1>Test 1123</h1>
         <React.Fragment>
           <Navbar />
         </React.Fragment>
