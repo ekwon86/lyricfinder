@@ -7,9 +7,25 @@ class Search extends Component {
     trackTitle: ""
   };
 
-  onChange(e) {
-    this.setState({ trackTitle: e.target.value });
-  }
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  findTrack = e => {
+    e.preventDefault();
+    axios
+      .get(
+        `https://cors-anywhere.herokuapp.com/http://api.musixmatch.com/ws/1.1/track.search?q_track=${
+          this.state.trackTitle
+        }&page_size=10&page=1&s_track_rating=desc&apikey=${
+          process.env.REACT_APP_MM_KEY
+        }`
+      )
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     return (
@@ -21,7 +37,7 @@ class Search extends Component {
                 <i className="fas fa-music" /> Search For A Song
               </h1>
               <p className="lead text-center">Get the lyrics for any song</p>
-              <form>
+              <form onSubmit={this.findTrack}>
                 <div className="form-group">
                   <input
                     type="text"
@@ -32,6 +48,12 @@ class Search extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                <button
+                  className="btn btn-primary btn-lg btn-block mb-5"
+                  type="submit"
+                >
+                  Get Track Lyrics
+                </button>
               </form>
             </div>
           );
